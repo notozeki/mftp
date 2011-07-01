@@ -62,7 +62,7 @@ int data_io(int soc, Command* cmd)
 			}
 			sum = 0;
 			do {
-				slen = send(soc, buf + sum, len - sum, 0);
+				slen = send(soc, &buf[sum], len - sum, 0);
 				sum += slen;
 			} while ( sum != len );
 			if ( slen < 0 ) {

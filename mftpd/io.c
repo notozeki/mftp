@@ -58,7 +58,7 @@ int data_io(int soc, Command* cmd)
 			}
 			sum = 0;
 			do {
-				slen = recv(soc, buf + sum, len - sum, 0);
+				slen = recv(soc, &buf[sum], len - sum, 0);
 				sum += slen;
 			} while ( sum != len );
 			
@@ -67,7 +67,7 @@ int data_io(int soc, Command* cmd)
 				fclose(fp);
 				return 0;
 			}
-			len = fwrite(buf, sizeof(char), slen, fp);
+			len = fwrite(buf, sizeof(char), sum, fp);
 			if ( len < sizeof(char)*slen ) {
 				if ( ferror(fp) ) {
 					perror("fwrite");
