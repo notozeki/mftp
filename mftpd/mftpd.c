@@ -190,20 +190,3 @@ int main(int argc, char* argv[])
 	close(acc);
 	return 0;
 }
-
-
-/* 必要なデータ */
-// 公開ディレクトリのドキュメントルート
-
-/*
-int main(int argc, char* argv[])
-{
-	while ( 1 ) { // 通信受付ループ
-		acc = 
-		// 受け付けたらfork()（forkの最大数設定？）
-		// クエリ受信
-		// クエリ解析
-		// 結果を実行（データの受信/送信、エラーの返送など）
-	}
-}
-*/
