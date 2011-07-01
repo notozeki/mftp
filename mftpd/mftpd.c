@@ -94,25 +94,36 @@ void send_recv_loop(int soc) // このループの中で勝手に死んではな
 {
 	ssize_t len;
 	char buf[BUFSIZE];
-	char* p;
+	char c, *p;
 	Command cmd;
 	int occur_io;
 
 	while ( 1 ) {
 		// リクエスト受信
+		p = buf;
+		while ( (len = recv(soc, &c, 1, 0)) > 0 ) {
+			if ( c == '\n' ) {
+				*p = '\0';
+				break;
+			}
+			*p = c;
+			p++;
+		}
+		/*
 		if ( (len = recv(soc, buf, sizeof(buf), 0)) < 0 ) {
 			perror("recv");
 			break;
 		}
+		*/
 		if ( len == 0 ) { // EOFを受信（通信の終わり）
 			fprintf(stderr, "recv: EOF\n");
 			break;
 		}
 		// 受信データを文字列として表示
-		buf[len] = '\0';
-		if ( (p = strpbrk(buf, "\r\n")) != NULL ) {
-			*p = '\0';
-		}
+		//buf[len] = '\0';
+		//if ( (p = strpbrk(buf, "\r\n")) != NULL ) {
+		//	*p = '\0';
+		//}
 		fprintf(stderr, "[client]%s\n", buf);
 		// リクエスト解析
 		request_analyze(buf, &cmd);
