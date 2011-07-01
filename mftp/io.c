@@ -11,7 +11,7 @@ int data_io(int soc, Command* cmd)
 {
 	char buf[BUFSIZE];
 	FILE* fp;
-	ssize_t slen;
+	ssize_t slen, sum;
 	size_t len;
 	int i, n;
 
@@ -60,7 +60,11 @@ int data_io(int soc, Command* cmd)
 					return 0;
 				}
 			}
-			slen = send(soc, buf, len, 0);
+			sum = 0;
+			do {
+				slen = send(soc, buf + sum, len - sum, 0);
+				sum += slen;
+			} while ( sum != len );
 			if ( slen < 0 ) {
 				perror("send");
 				fclose(fp);
